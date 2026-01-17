@@ -1,21 +1,13 @@
 import Navbar from "@/components/landing/Navbar";
-import Hero from "@/components/landing/Hero";
-import ProblemSection from "@/components/landing/ProblemSection";
-import SolutionSection from "@/components/landing/SolutionSection";
-import HowItWorks from "@/components/landing/HowItWorks";
 import PricingSection from "@/components/landing/PricingSection";
 import FAQSection from "@/components/landing/FAQSection";
 import CTASection from "@/components/landing/CTASection";
 import Footer from "@/components/landing/Footer";
 
-export default function Home() {
+export default function PricingPage() {
   return (
     <>
       <Navbar />
-      <Hero />
-      <ProblemSection />
-      <SolutionSection />
-      <HowItWorks />
       <PricingSection />
       <FAQSection />
       <CTASection />
