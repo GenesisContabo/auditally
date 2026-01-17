@@ -1,4 +1,7 @@
-import { Check } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type PricingCardProps = {
@@ -14,6 +17,33 @@ export default function PricingCard({
   features,
   highlighted = false,
 }: PricingCardProps) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleCheckout = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ plan: name.toLowerCase() }),
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("No checkout URL returned");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -49,15 +79,25 @@ export default function PricingCard({
       </div>
       <button
         type="button"
+        onClick={handleCheckout}
+        disabled={isLoading}
         aria-label={`Start ${name} plan for $${price} per month`}
         className={cn(
           "mt-8 inline-flex w-full items-center justify-center rounded-md px-4 py-3 text-sm font-semibold transition",
           highlighted
             ? "bg-[var(--primary)] text-white hover:bg-[#162c49]"
             : "border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white",
+          isLoading && "cursor-not-allowed opacity-70",
         )}
       >
-        Start plan
+        {isLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Processing...
+          </>
+        ) : (
+          "Start plan"
+        )}
       </button>
     </div>
   );

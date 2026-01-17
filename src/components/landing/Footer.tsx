@@ -4,8 +4,7 @@ import { cn } from "@/lib/utils";
 const footerLinks = [
   { label: "Features", href: "#features" },
   { label: "Pricing", href: "#pricing" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "FAQ", href: "#faq" },
 ];
 
 export default function Footer() {
